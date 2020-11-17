@@ -3,9 +3,8 @@ export class MultiplicationTable {
   public render(start: number, end: number): string {
     const isValid = inputCheck(start, end)
     if (isValid) {
-      // return 'success'
       const expressions: Expression[][] = buildExpressions(start, end)
-      return generateTable(expressions)
+      return generateTable(expressions, start, end)
     }
     else return ''
   }
@@ -39,12 +38,7 @@ function buildExpressions(start: number, end: number): Expression[][] {
     (col, colIndex) => generateSingleExpression(start + colIndex, start + rowIndex)
   )
   )
-  // console.log(a)
   return a
-  // console.log(a)
-
-  // return [[new Expression(2,4,8)]]
-
 }
 
 function generateSingleExpression(expressionStart: number, expressionEnd: number): Expression {
@@ -52,22 +46,40 @@ function generateSingleExpression(expressionStart: number, expressionEnd: number
 }
 
 
-function generateTable(expressions: Expression[][]): string {
-  // let outputexpression = [...Array(expressions.length).keys()]
-  //   .map((row, rowIndex) => [...Array(expressions[rowIndex].length).keys()])
-  // console.log(outputexpression)
-  const outputWithoutSpace = expressions.map((row) =>
-    row.map((col) => printSingleMultiplication(col)).join('  ')
-    // (col, colIndex) => printSingleMultiplication(expressions[rowIndex][colIndex])
-  ).join('\n')
+function generateTable(expressions: Expression[][], start: number, end: number): string {
+  // const outputWithoutSpace = expressions.map((row, rowIndex) =>
+  //   row.map((col, colIndex) => {
+  //     let current = printSingleMultiplication(col)
+  //     if (colIndex < expressions[rowIndex].length - 1) {
+  //       current.concat(getAdjustedSpace(start, end, rowIndex, colIndex))
+  //     }
+  //     return current
+  //   }).join('  ')
+  // ).join('\n')
+  let outputWithoutSpace  = ''
+  for (let i = 0; i < expressions.length; i++) {
+    for (let j = 0; j < expressions[i].length; j++) {
+      outputWithoutSpace += printSingleMultiplication(expressions[i][j])
+      if (j < expressions[i].length - 1)
+        outputWithoutSpace += getAdjustedSpace(start, end, i, j)
+    }
+    if (i < expressions.length - 1)
+      outputWithoutSpace += '\n'
+  }
   console.log(outputWithoutSpace)
   return outputWithoutSpace
 
 }
 
 function printSingleMultiplication(inputExpression: Expression): string {
-  // console.log(`${inputExpression.factor1}*${inputExpression.factor2}=${inputExpression.product}`)
   return `${inputExpression.factor1}*${inputExpression.factor2}=${inputExpression.product}`
+}
+
+function getAdjustedSpace(start: number, end: number, currentRow: number, currentCol: number): string {
+  if ((start + currentCol) * end > 9 && (start + currentRow) * (start + currentCol) < 10) {
+    return ' '.repeat(3)
+  }
+  else return ' '.repeat(2)
 }
 
 

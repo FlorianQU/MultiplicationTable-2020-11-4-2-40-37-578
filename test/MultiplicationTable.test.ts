@@ -49,4 +49,16 @@ describe('Multiplication Table', () => {
     //then
     expect(rendered).toBe('2*2=4\n2*3=6  3*3=9\n2*4=8  3*4=12  4*4=16')
   })
+  it('should render return nothing when multiplication table of (2,5)', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = 2
+    const end = 5
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('2*2=4\n2*3=6   3*3=9\n2*4=8   3*4=12  4*4=16\n2*5=10  3*5=15  4*5=20  5*5=25')
+  })
 })

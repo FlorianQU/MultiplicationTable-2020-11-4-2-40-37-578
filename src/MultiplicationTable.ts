@@ -1,4 +1,3 @@
-import { Console } from 'console'
 
 export class MultiplicationTable {
   public render(start: number, end: number): string {

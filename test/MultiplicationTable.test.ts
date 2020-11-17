@@ -25,4 +25,16 @@ describe('Multiplication Table', () => {
     //then
     expect(rendered).toBe('')
   })
+  it('should render return nothing when multiplication table of (-1,11)', () => {
+    // given
+    const table = new MultiplicationTable()
+    const start = -1
+    const end = 11
+
+    //when
+    const rendered = table.render(start, end)
+
+    //then
+    expect(rendered).toBe('')
+  })
 })
